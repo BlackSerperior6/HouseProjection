@@ -34,13 +34,9 @@ namespace House3DProjection
 
             // Крыша
             DrawLine(g, roofPen, projectedPoints[4], projectedPoints[8]);
-            DrawLine(g, roofPen, projectedPoints[8], projectedPoints[7]);
-            DrawLine(g, roofPen, projectedPoints[5], projectedPoints[9]);
-            DrawLine(g, roofPen, projectedPoints[9], projectedPoints[6]);
-            DrawLine(g, roofPen, projectedPoints[4], projectedPoints[10]);
-            DrawLine(g, roofPen, projectedPoints[10], projectedPoints[5]);
-            DrawLine(g, roofPen, projectedPoints[7], projectedPoints[11]);
-            DrawLine(g, roofPen, projectedPoints[11], projectedPoints[6]);
+            DrawLine(g, roofPen, projectedPoints[5], projectedPoints[8]);
+            DrawLine(g, roofPen, projectedPoints[6], projectedPoints[8]);
+            DrawLine(g, roofPen, projectedPoints[7], projectedPoints[8]);
 
             // Рисуем вершины
             Brush vertexBrush = new SolidBrush(Color.Green);

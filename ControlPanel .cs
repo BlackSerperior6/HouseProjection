@@ -50,7 +50,7 @@ namespace House3DProjection
             yPos += 60;
 
             // Z точки наблюдения
-            CreateLabelAndTrackBar("Z точки наблюдения:", 100, 1000, (int)parameters.ViewpointZ, yPos,
+            CreateLabelAndTrackBar("Zс:", 100, 1000, (int)parameters.ViewpointZ, yPos,
                 (val) => { parameters.ViewpointZ = val; OnParametersChanged(); });
         }
 
