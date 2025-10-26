@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Reflection.Metadata;
 
 namespace House3DProjection
 {
@@ -50,6 +51,8 @@ namespace House3DProjection
 
             // Подписи
             DrawLabels(g, parameters, centerX, centerY);
+
+            CalculateAndDrawFsLabels(g, parameters);
         }
 
         private void DrawLine(Graphics g, Pen pen, PointF p1, PointF p2)
@@ -67,9 +70,9 @@ namespace House3DProjection
             g.FillEllipse(vpBrush, vp.Z.X - 5, vp.Z.Y - 5, 10, 10);
 
             // Подписи точек схода
-            g.DrawString("VP X", vpFont, Brushes.Magenta, vp.X.X + 10, vp.X.Y - 10);
-            g.DrawString("VP Y", vpFont, Brushes.Magenta, vp.X.X + 10, vp.X.Y + 10);
-            g.DrawString("VP Z", vpFont, Brushes.Magenta, vp.Z.X + 10, vp.Z.Y);
+            g.DrawString("ТС X", vpFont, Brushes.Magenta, vp.X.X + 10, vp.X.Y - 10);
+            g.DrawString("ТС Y", vpFont, Brushes.Magenta, vp.X.X + 10, vp.X.Y + 10);
+            g.DrawString("ТС Z", vpFont, Brushes.Magenta, vp.Z.X + 10, vp.Z.Y);
 
             // Линии к точкам схода (для наглядности)
             Pen vpPen = new Pen(Color.LightGray, 1) { DashStyle = DashStyle.Dash };
@@ -80,10 +83,25 @@ namespace House3DProjection
         private void DrawLabels(Graphics g, ProjectionParameters parameters, int centerX, int centerY)
         {
             Font labelFont = new Font("Arial", 10);
-            g.DrawString("3D Projection House with Vanishing Points", labelFont, Brushes.Black, 10, 10);
-            g.DrawString($"Position: ({parameters.ObjectX}, {parameters.ObjectY}, {parameters.ObjectZ})", labelFont, Brushes.Black, 10, 30);
-            g.DrawString($"Angles: F={parameters.AngleF}°, T={parameters.AngleT}°", labelFont, Brushes.Black, 10, 50);
-            g.DrawString($"Viewpoint Z: {parameters.ViewpointZ}", labelFont, Brushes.Black, 10, 70);
+            g.DrawString($"Позиция: ({parameters.ObjectX}, {parameters.ObjectY}, {parameters.ObjectZ})", labelFont, Brushes.Black, 10, 10);
+            g.DrawString($"Углы: F={parameters.AngleF}°, T={parameters.AngleT}°", labelFont, Brushes.Black, 10, 30);
+            g.DrawString($"Zc: {parameters.ViewpointZ}", labelFont, Brushes.Black, 10, 50);
+        }
+
+        private void CalculateAndDrawFsLabels(Graphics g, ProjectionParameters parameters)
+        {
+            Font labelFont = new Font("Arial", 10);
+
+            g.DrawString($"Fx^2: {(Math.Pow(Math.Cos(parameters.AngleF), 2) + Math.Pow(Math.Sin(parameters.AngleF), 2) 
+                * Math.Pow(Math.Sin(parameters.AngleT), 2)) * Math.Pow(parameters.ViewpointZ, 2) / Math.Pow(Math.Sin(parameters.AngleF) * Math.Cos(parameters.AngleT) + parameters.ViewpointZ, 2)}", labelFont, Brushes.Black, 10, 70);
+
+            g.DrawString($"Fy^2: {Math.Pow(Math.Cos(parameters.AngleT), 2) * Math.Pow(parameters.ViewpointZ, 2) / Math.Pow(parameters.ViewpointZ - Math.Sin(parameters.AngleT), 2)}", labelFont, Brushes.Black, 10, 90);
+
+            g.DrawString($"Fz^2: {(Math.Pow(Math.Sin(parameters.AngleF), 2) + Math.Pow(Math.Cos(parameters.AngleF), 2)
+                * Math.Pow(Math.Sin(parameters.AngleT), 2)) * Math.Pow(parameters.ViewpointZ, 2) / Math.Pow(parameters.ViewpointZ - Math.Cos(parameters.AngleF) * Math.Cos(parameters.AngleT), 2)}", labelFont, Brushes.Black, 10, 110);
+
+            /*g.DrawString($"Углы: F={parameters.AngleF}°, T={parameters.AngleT}°", labelFont, Brushes.Black, 10, 30);
+            g.DrawString($"Zc: {parameters.ViewpointZ}", labelFont, Brushes.Black, 10, 50);*/
         }
     }
 }

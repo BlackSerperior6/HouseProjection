@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Text = "3D Projection House with Vanishing Points";
+            this.Text = "3D Проекция Дома";
             this.Size = new Size(1000, 700);
             this.DoubleBuffered = true;
         }
